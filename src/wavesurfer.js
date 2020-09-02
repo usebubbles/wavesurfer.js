@@ -124,7 +124,7 @@ import MediaElementWebAudio from './mediaelement-webaudio';
  *     credentials: 'same-origin',
  *     redirect: 'follow',
  *     referrer: 'client',
- *     headers: [
+ *     requestHeaders: [
  *         {
  *             key: 'Authorization',
  *             value: 'my-token'
@@ -267,7 +267,7 @@ export default class WaveSurfer extends util.Observer {
         splitChannelsOptions: {
             overlay: false,
             channelColors: {},
-            filterChannels: [],
+            filterChannels: []
         },
         waveColor: '#999',
         xhr: {}
@@ -288,6 +288,7 @@ export default class WaveSurfer extends util.Observer {
      * @example const wavesurfer = WaveSurfer.create(params);
      */
     static create(params) {
+        alert('CREATING WAVESURFER');
         const wavesurfer = new WaveSurfer(params);
         return wavesurfer.init();
     }
@@ -1459,13 +1460,14 @@ export default class WaveSurfer extends util.Observer {
             this.backend.once('error', err => this.fireEvent('error', err))
         );
 
-        // If no pre-decoded peaks provided or pre-decoded peaks are
-        // provided with forceDecode flag, attempt to download the
-        // audio file and decode it with Web Audio.
         if (peaks) {
             this.backend.setPeaks(peaks, duration);
+            this.drawBuffer();
         }
 
+        // If no pre-decoded peaks are provided, or are provided with
+        // forceDecode flag, attempt to download the audio file and decode it
+        // with Web Audio.
         if (
             (!peaks || this.params.forceDecode) &&
             this.backend.supportsWebAudio()
