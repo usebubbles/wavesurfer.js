@@ -510,10 +510,10 @@ export class Region {
             }
 
             // Resize
-            if (this.resize && resize) {
-                updated = updated || !!delta;
-                this.onResize(delta, resize);
-            }
+            // if (this.resize && resize) {
+            //     updated = updated || !!delta;
+            //     this.onResize(delta, resize);
+            // }
 
             if (
                 this.scroll &&
